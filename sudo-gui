@@ -1,0 +1,6 @@
+#!/bin/sh
+# sudo-gui — run a command as root via the GUI askpass dialog.
+# Usage: sudo-gui <command> [args...]
+# A password dialog pops up on the desktop; the entered password goes
+# straight to sudo and is never visible to the caller.
+exec env SUDO_ASKPASS="$HOME/.local/bin/sudo-askpass" sudo -A "$@"

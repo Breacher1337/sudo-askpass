@@ -1,0 +1,15 @@
+#!/bin/sh
+# sudo-askpass — askpass helper for `sudo -A` when no TTY is available
+# (e.g. agentic tool shells). Pops a GUI password dialog and prints the
+# entered password to stdout, which sudo reads.
+if command -v yad >/dev/null 2>&1; then
+    exec yad --entry --hide-text --title="sudo authentication" \
+        --text="Password for $USER:" --width=320 --center
+elif command -v zenity >/dev/null 2>&1; then
+    exec zenity --password --title="sudo authentication ($USER)"
+elif command -v kdialog >/dev/null 2>&1; then
+    exec kdialog --password "Password for $USER (sudo)" --title "sudo authentication"
+else
+    echo "sudo-askpass: no GUI prompt tool found (install yad, zenity or kdialog)" >&2
+    exit 1
+fi
